@@ -34,35 +34,65 @@
       z-index: 0;
       overflow: hidden;
     }
+    /* ── right side ── */
     .bg-qmark {
       position: absolute;
       right: -40px;
       bottom: -20px;
-      width: 460px;
-      opacity: 0.38;
+      width: 420px;
+      opacity: 0.42;
       filter: drop-shadow(0 12px 18px rgba(120,128,145,0.06));
       transform: translateY(calc(var(--scroll, 0) * -0.06px));
     }
     .bg-figure {
       position: absolute;
-      right: 40px;
+      right: 30px;
       bottom: 60px;
-      width: 280px;
-      opacity: 0.45;
+      width: 260px;
+      opacity: 0.48;
       filter: drop-shadow(0 12px 18px rgba(120,128,145,0.08));
       transform: translateY(calc(var(--scroll, 0) * -0.12px));
     }
     .bg-bubble {
       position: absolute;
-      right: 160px;
-      bottom: 330px;
-      width: 160px;
-      opacity: 0.4;
+      right: 150px;
+      bottom: 320px;
+      width: 150px;
+      opacity: 0.44;
       transform: translateY(calc(var(--scroll, 0) * -0.18px));
     }
 
+    /* ── left side (mirrored) ── */
+    .bg-qmark-l {
+      position: absolute;
+      left: -40px;
+      bottom: -20px;
+      width: 420px;
+      opacity: 0.38;
+      filter: drop-shadow(0 12px 18px rgba(120,128,145,0.06));
+      transform: translateY(calc(var(--scroll, 0) * -0.06px)) scaleX(-1);
+    }
+    .bg-figure-l {
+      position: absolute;
+      left: 30px;
+      bottom: 60px;
+      width: 260px;
+      opacity: 0.44;
+      filter: drop-shadow(0 12px 18px rgba(120,128,145,0.08));
+      transform: translateY(calc(var(--scroll, 0) * -0.12px)) scaleX(-1);
+    }
+    .bg-bubble-l {
+      position: absolute;
+      left: 150px;
+      bottom: 320px;
+      width: 150px;
+      opacity: 0.40;
+      transform: translateY(calc(var(--scroll, 0) * -0.18px)) scaleX(-1);
+    }
+
     @media (prefers-reduced-motion: reduce) {
-      .bg-qmark, .bg-figure, .bg-bubble { transform: none !important; }
+      .bg-qmark, .bg-figure, .bg-bubble,
+      .bg-qmark-l, .bg-figure-l, .bg-bubble-l { transform: none !important; }
     }
 
     .container {
@@ -151,14 +181,46 @@
       <path d="M78 232l-14 4M122 232l14 4" stroke="#8da2bd" stroke-width="4" stroke-linecap="round"/>
     </svg>
 
-    <!-- Thought bubble -->
+    <!-- Thought bubble (right) -->
     <svg class="bg-bubble" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M16 52c0-20 16-36 36-36h56c20 0 36 16 36 36v16c0 20-16 36-36 36H70l-18 14 4-14h-4c-20 0-36-16-36-36z" fill="rgba(255,255,255,0.42)" stroke="#c3cfbf" stroke-width="3" stroke-linejoin="round"/>
-      <!-- Dots inside bubble -->
       <circle cx="62" cy="60" r="4" fill="#c8b5d6" opacity="0.7"/>
       <circle cx="80" cy="60" r="4" fill="#9fb7d9" opacity="0.7"/>
       <circle cx="98" cy="60" r="4" fill="#c3cfbf" opacity="0.7"/>
-      <!-- Small trailing dots -->
+      <circle cx="44" cy="106" r="5" fill="rgba(255,255,255,0.5)" stroke="#c3cfbf" stroke-width="2"/>
+      <circle cx="36" cy="116" r="3.5" fill="rgba(255,255,255,0.4)" stroke="#c8b5d6" stroke-width="2"/>
+    </svg>
+
+    <!-- ══ Left-side mirrors ══ -->
+
+    <!-- Large question mark (left) -->
+    <svg class="bg-qmark-l" viewBox="0 0 300 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M150 20c-60 0-108 48-108 108 0 36 18 68 46 88l14 10v48" stroke="#c3cfbf" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" fill="rgba(255,255,255,0.18)"/>
+      <path d="M102 118c0-26 22-48 48-48s48 22 48 48c0 20-12 38-30 46" stroke="#cdb8d8" stroke-width="10" stroke-linecap="round"/>
+      <circle cx="150" cy="334" r="20" stroke="#c3cfbf" stroke-width="12" fill="rgba(255,255,255,0.24)"/>
+    </svg>
+
+    <!-- Figure sitting on question mark (left) -->
+    <svg class="bg-figure-l" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M80 160c0-12 10-22 22-22h16c12 0 22 10 22 160v32" stroke="#8da2bd" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="rgba(255,255,255,0.28)"/>
+      <path d="M80 192v32M120 192v32" stroke="#7d8fa7" stroke-width="5" stroke-linecap="round"/>
+      <path d="M80 160c0-12 10-22 22-22h16c12 0 22 10 22 22v32H80z" fill="rgba(255,255,255,0.32)" stroke="#8da2bd" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="100" cy="124" r="24" fill="rgba(255,255,255,0.36)" stroke="#879ab4" stroke-width="4"/>
+      <path d="M80 114c2-14 10-24 20-26 10-2 22 4 24 16" stroke="#c8b5d6" stroke-width="4" stroke-linecap="round"/>
+      <path d="M100 148v14" stroke="#7f92ac" stroke-width="5" stroke-linecap="round"/>
+      <path d="M80 172l-24 20" stroke="#7d8fa7" stroke-width="5" stroke-linecap="round"/>
+      <rect x="38" y="188" width="12" height="22" rx="6" fill="rgba(255,255,255,0.42)" stroke="#8193aa" stroke-width="3"/>
+      <path d="M120 172l22 14" stroke="#c8b5d6" stroke-width="4" stroke-linecap="round"/>
+      <path d="M88 192l-10 40M112 192l10 40" stroke="#7d8fa7" stroke-width="5" stroke-linecap="round"/>
+      <path d="M78 232l-14 4M122 232l14 4" stroke="#8da2bd" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+
+    <!-- Thought bubble (left) -->
+    <svg class="bg-bubble-l" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 52c0-20 16-36 36-36h56c20 0 36 16 36 36v16c0 20-16 36-36 36H70l-18 14 4-14h-4c-20 0-36-16-36-36z" fill="rgba(255,255,255,0.42)" stroke="#c3cfbf" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="62" cy="60" r="4" fill="#c8b5d6" opacity="0.7"/>
+      <circle cx="80" cy="60" r="4" fill="#9fb7d9" opacity="0.7"/>
+      <circle cx="98" cy="60" r="4" fill="#c3cfbf" opacity="0.7"/>
       <circle cx="44" cy="106" r="5" fill="rgba(255,255,255,0.5)" stroke="#c3cfbf" stroke-width="2"/>
       <circle cx="36" cy="116" r="3.5" fill="rgba(255,255,255,0.4)" stroke="#c8b5d6" stroke-width="2"/>
     </svg>
