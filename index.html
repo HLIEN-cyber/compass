@@ -222,10 +222,13 @@
     }
 
     .stage-debater {
+      position: absolute;
+      pointer-events: none;
       width: 260px;
       left: 47%;
       bottom: 3%;
-      opacity: 0.56 !important;
+      opacity: 0.40;
+      filter: brightness(1.55) saturate(0.28) contrast(0.88) drop-shadow(0 18px 22px rgba(120, 128, 145, 0.08));
       transform: translate3d(calc(var(--scroll, 0) * 0.038px), calc(var(--scroll, 0) * -0.14px), 0);
       transform-origin: center bottom;
     }
@@ -862,24 +865,7 @@
           </g>
         </svg>
 
-        <svg class="stage-debater" viewBox="0 0 260 220">
-          <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <ellipse cx="130" cy="202" rx="72" ry="12" fill="rgba(126,143,168,0.16)"/>
-            <path d="M72 206h116" stroke="#9cadc5" stroke-width="4"/>
-            <path d="M90 206V120c0-10 8-18 18-18h44c10 0 18 8 18 18v86" fill="rgba(255,255,255,0.36)" stroke="#8da2bd" stroke-width="4"/>
-            <path d="M110 128h40" stroke="#9eb0c8" stroke-width="3"/>
-            <path d="M106 146h48" stroke="#c8b5d6" stroke-width="3"/>
-            <path d="M128 100c-18 0-32-14-32-32s14-32 32-32 32 14 32 32-14 32-32 32z" fill="rgba(255,255,255,0.46)" stroke="#879ab4" stroke-width="4"/>
-            <path d="M114 68c3-9 12-16 22-16 10 0 19 6 22 16" stroke="#c8b5d6" stroke-width="3"/>
-            <path d="M129 101v20" stroke="#7f92ac" stroke-width="4"/>
-            <path d="M130 120l34 16" stroke="#7f92ac" stroke-width="4"/>
-            <path d="M164 136l18-9" stroke="#c8b5d6" stroke-width="3"/>
-            <path d="M120 120l-22 24" stroke="#7f92ac" stroke-width="4"/>
-            <path d="M98 144l-20 5" stroke="#c3cfbf" stroke-width="3"/>
-            <path d="M166 46c14 2 26 10 34 21" stroke="#c3cfbf" stroke-width="3" opacity=".8"/>
-            <path d="M178 34c18 2 32 10 42 23" stroke="#c8b5d6" stroke-width="3" opacity=".6"/>
-          </g>
-        </svg>
+        <img class="stage-debater" src="images/debate character.png" alt="" />
       </div>
 
       <div class="hero-inner">
