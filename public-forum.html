@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PF Debate Vocabulary Trainer</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #334155;
+    --text-light: #64748b;
+    --success: #22c55e;
+    --error: #ef4444;
+    --border: #e2e8f0;
+  }
+
+  * { box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+  
+  body {
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 20px;
+    color: var(--text-main);
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    min-height: 600px;
+    position: relative;
+  }
+
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    background: #f1f5f9;
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--text-light);
+    transition: all 0.2s;
+    font-size: 1rem;
+  }
+
+  .tab-btn.active {
+    background: var(--card-bg);
+    color: var(--primary);
+    border-top: 3px solid var(--primary);
+  }
+
+  .view-section { display: none; padding: 20px; }
+  .view-section.active { display: block; }
+
+  .search-box {
+    width: 100%; padding: 12px; margin-bottom: 20px; border: 2px solid var(--border); border-radius: 8px; font-size: 1rem;
+  }
+  .vocab-list { display: flex; flex-direction: column; gap: 12px; max-height: 65vh; overflow-y: auto; padding-right: 5px; }
+  .vocab-item { border: 1px solid var(--border); border-radius: 8px; padding: 15px; background: white; }
+  .v-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+  .v-word { font-size: 1.3rem; font-weight: bold; color: var(--primary); min-width: 150px; }
+  .v-cn { color: var(--text-main); font-weight: 500; font-size: 1rem; background: #e0f2fe; padding: 4px 8px; border-radius: 4px; }
+  .speak-btn { background: transparent; border: 1px solid var(--primary); color: var(--primary); border-radius: 20px; padding: 4px 12px; font-size: 0.85rem; cursor: pointer; margin-left: auto; }
+  .v-def { font-size: 0.95rem; margin-bottom: 6px; line-height: 1.4; color: #475569; }
+  .v-ex { font-size: 0.9rem; color: var(--text-light); font-style: italic; background: #f1f5f9; padding: 8px 12px; border-radius: 6px; border-left: 4px solid var(--primary); margin-top: 5px; }
+
+  .game-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .score-board { font-weight: bold; color: var(--primary); }
+  .restart-btn { background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+  .game-area { display: flex; gap: 20px; flex-wrap: wrap; }
+  .col { flex: 1; min-width: 250px; display: flex; flex-direction: column; gap: 10px; }
+  .game-item { padding: 15px; background: white; border: 2px solid var(--border); border-radius: 8px; cursor: pointer; min-height: 60px; user-select: none; }
+  .game-item.selected { background: var(--primary); color: white; border-color: var(--primary); }
+  .game-item.correct { background: var(--success); color: white; border-color: var(--success); opacity: 0.5; pointer-events: none; }
+  .instruction { text-align: center; color: var(--text-light); margin-bottom: 15px; font-size: 0.9rem; background: #fffbeb; padding: 10px; border-radius: 6px; border: 1px solid #fcd34d; }
+  .modal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 100; }
+  .modal.show { display: flex; }
+  .modal-content { background: white; padding: 30px; border-radius: 12px; text-align: center; width: 320px; }
+  .modal-btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-size: 1rem; cursor: pointer; width: 100%; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('study')">📖 單字學習 (Study)</button>
+    <button class="tab-btn" onclick="switchTab('game')">🎮 配對挑戰 (Game)</button>
+  </div>
+
+  <div id="study-view" class="view-section active">
+    <input type="text" class="search-box" id="searchInput" placeholder="搜尋單字、中文或定義..." onkeyup="filterVocab()">
+    <div class="vocab-list" id="vocabList"></div>
+  </div>
+
+  <div id="game-view" class="view-section">
+    <div class="instruction">💡 玩法：點擊左側的「單字」，再點擊右側對應的「定義」來進行配對。</div>
+    <div class="game-controls">
+      <span class="score-board">配對進度: <span id="score">0</span> / 5</span>
+      <button class="restart-btn" onclick="initGame()">🔄 換一組題目 (Next Round)</button>
+    </div>
+    <div class="game-area">
+      <div class="col" id="game-left"></div>
+      <div class="col" id="game-right"></div>
+    </div>
+  </div>
+
+  <div id="success-modal" class="modal">
+    <div class="modal-content">
+      <span class="modal-icon">🎉</span>
+      <h2 class="modal-title">太棒了！</h2>
+      <p class="modal-text">你成功完成了所有配對！</p>
+      <button class="modal-btn" onclick="closeModal()">再玩一次</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const db = [
+    { w: "Add-on", c: "增補論點", d: "A supplementary advantage or disadvantage introduced in the rebuttal.", e: "Judge, I have an add-on regarding environmental benefits." },
+    { w: "Advantage", c: "優勢/利益", d: "A specific positive benefit that the Pro team claims will occur.", e: "Our first advantage focuses on stimulating local economies." },
+    { w: "Advocate", c: "主張/提倡", d: "To actively support a specific proposal or idea using logical arguments.", e: "We advocate for a total ban on single-use plastics." },
+    { w: "Affirmative (Pro)", c: "正方", d: "The side of the debate that supports and argues in favor of the resolution.", e: "The Affirmative team will show that a carbon tax is efficient." },
+    { w: "Answer", c: "回應/答辯", d: "A general term for any response given to an opponent's point.", e: "My answer to their job loss contention is green energy growth." },
+    { w: "Argument", c: "論證/論點", d: "Basic unit: Claim + Warrant + Impact.", e: "Their argument lacks a clear warrant." },
+    { w: "Backflowing", c: "補筆記/回溯紀錄", d: "Writing down your own arguments on your partner's notes.", e: "I was backflowing our defense to not miss key responses." },
+    { w: "Ballot", c: "評審單", d: "Form where the judge records the winner and reasoning.", e: "I'm voting for the Pro on the ballot." },
+    { w: "Block", c: "反駁稿", d: "Pre-prepared document with multiple responses to an argument.", e: "I have a block ready for their escalation arguments." },
+    { w: "Break", c: "晉級", d: "Moving from preliminary rounds into elimination rounds.", e: "We need to win this round to break into quarterfinals." },
+    { w: "Brink", c: "臨界點", d: "The point where a situation is unstable and impact is imminent.", e: "The economy is on the brink of depression." },
+    { w: "Burden of proof", c: "舉證責任", d: "Requirement to provide evidence for a claim.", e: "The Con side carries the burden of proof for feasibility." },
+    { w: "Card", c: "證據卡", d: "A specific piece of evidence or quote used to support an argument.", e: "I'm reading a card from a 2024 Harvard study." },
+    { w: "Case", c: "論點陳述稿", d: "Primary set of arguments prepared for Constructive speeches.", e: "Our case is built on healthcare as a human right." },
+    { w: "Citation", c: "引用來源", d: "Bibliographic info (author, date, source) for evidence.", e: "The citation is Dr. Smith, 2025, Journal of Economics." },
+    { w: "Claim", c: "主張/聲稱", d: "The main statement debater is trying to prove.", e: "Opponents claim this policy causes inflation." },
+    { w: "Clash", c: "交鋒", d: "Degree to which teams engage with each other's arguments.", e: "There is significant clash regarding national security." },
+    { w: "Constructive Speech", c: "論點陳述演講", d: "First speech establishing main arguments.", e: "In my constructive speech, I will lay out two reasons." },
+    { w: "Contention", c: "論點", d: "A major, numbered point within a team's case.", e: "Contention one: Investing in high-speed rail." },
+    { w: "Context", c: "上下文/語境", d: "Original setting of a quote; ensuring intent is kept.", e: "You're taking that quote out of context." },
+    { w: "Co-option", c: "吸收/轉用", d: "Arguing your side achieves opponent's benefits better.", e: "Our case uses co-option showing market solutions work better." },
+    { w: "Cost-benefit analysis", c: "成本效益分析", d: "Comparing total pros and cons for a net result.", e: "Lives saved outweigh the financial cost." },
+    { w: "Counterplan", c: "反計畫", d: "Specific alternative policy proposed by Con (rare in PF).", e: "Our counterplan proposes nuclear instead of wind." },
+    { w: "Crossfire", c: "交叉質詢", d: "Timed period for direct questions between debaters.", e: "During crossfire, I asked about their definition." },
+    { w: "Crystallization", c: "聚焦", d: "Narrowing debate to voting issues in final speeches.", e: "I will provide crystallization by focusing on security." },
+    { w: "Defensive arguments", c: "防禦性論點", d: "Arguments that disprove or minimize opponent's claims.", e: "My defensive arguments show disaster is improbable." },
+    { w: "Disadvantage", c: "弊病/劣勢", d: "Negative consequence claimed by Con if resolution adopted.", e: "A disadvantage is alienating diplomatic allies." },
+    { w: "Drop", c: "遺漏論點", d: "Failing to respond to an argument, conceding it.", e: "The opponents dropped our point about education." },
+    { w: "Empirical Evidence", c: "實證證據", d: "Proof based on real-world data or history.", e: "Empirical evidence shows austerity hurts the poor." },
+    { w: "Empirically denied", c: "實證否認", d: "Using history to prove an argument false.", e: "Their claim is empirically denied by sustained growth." },
+    { w: "Extend", c: "延伸", d: "Restating an argument to keep it active for the judge.", e: "I want to extend our argument on due process." },
+    { w: "Fallacy", c: "謬誤", d: "Error in logic making a conclusion unsupported.", e: "Their argument is a fallacy; correlation isn't causation." },
+    { w: "Fiat", c: "擬定權", d: "Assumption that the policy *will* be done to debate *should*.", e: "Under fiat, we assume the law passes." },
+    { w: "Final Focus", c: "最後重點陳述", d: "Last speech telling judge exactly why to vote for you.", e: "In Final Focus, I'll explain why nuclear war matters most." },
+    { w: "Flow", c: "筆記", d: "Specialized note-taking system to track arguments.", e: "Check your flow, we answered that already." },
+    { w: "Framework", c: "判斷基準", d: "Lens given to judge to weigh the round (e.g. Utilitarianism).", e: "Our framework is maximizing lives saved." },
+    { w: "Frontline", c: "第一線回應", d: "First set of responses to a rebuttal.", e: "I have a frontline ready for healthcare attacks." },
+    { w: "Grand crossfire", c: "大交叉質詢", d: "Crossfire involving all four debaters.", e: "In grand crossfire, we debated ethics of AI." },
+    { w: "Grouping", c: "歸併回應", d: "Answering related points with one response.", e: "I'm grouping their responses as they share one assumption." },
+    { w: "Impact", c: "影響/衝擊", d: "The ultimate result (lives saved, growth, etc.).", e: "The impact is preventing 50,000 deaths." },
+    { w: "Impact calculus", c: "影響比較", d: "Explaining why your impact outweighs the opponent's.", e: "Our impact calculus shows certainty outweighs risk." },
+    { w: "Impact turn", c: "影響轉向", d: "Arguing the 'bad' outcome is actually 'good'.", e: "We turn the impact: slowing economy reduces emissions." },
+    { w: "Interpretation", c: "解釋/定義", d: "Specific definition of words within resolution.", e: "Our interpretation of 'sanctions' includes diplomatic measures." },
+    { w: "Intervention", c: "裁判介入", d: "Judge using own opinion instead of arguments to decide.", e: "The decision felt like intervention." },
+    { w: "Link", c: "連結", d: "Causal connection between resolution and impact.", e: "There is no link between this policy and crime rates." },
+    { w: "Link turn", c: "連結轉向", d: "Arguing resolution prevents the problem instead of causing it.", e: "We turn the link: this policy actually decreases recession." },
+    { w: "Magnitude", c: "規模", d: "Weighing mechanism: how many people are affected.", e: "The magnitude of our impact is global." },
+    { w: "Mitigation", c: "緩解", d: "Defense proving a problem is not as bad as claimed.", e: "This is mitigation; the benefit is smaller, not zero." },
+    { w: "Non-unique", c: "非獨有", d: "Impact/Link exists regardless of debate outcome.", e: "Inflation is non-unique; it's already high." },
+    { w: "Offensive arguments", c: "攻擊性論點", d: "Arguments giving a reason to vote FOR you (turns/advantages).", e: "We need offensive arguments like a turn." },
+    { w: "Overview", c: "總覽", d: "Summary of position given at start of speech.", e: "I'll provide a brief overview before line-by-line." },
+    { w: "Paradigm", c: "判準", d: "Judge's preferences for deciding a round.", e: "Check the judge's paradigm for evidence preference." },
+    { w: "Probability", c: "可能性", d: "Weighing mechanism: how likely impact is to happen.", e: "The probability of nuclear conflict is low." },
+    { w: "Rebuttal", c: "反駁", d: "Second speech where teams attack opponent's case.", e: "In rebuttal, I will dismantle their arguments." },
+    { w: "Resolution", c: "辯題", d: "The official topic being debated.", e: "The resolution states US should increase presence." },
+    { w: "Roadmap", c: "內容清單", d: "List of order of arguments before speaking.", e: "My roadmap: Pro case first, then Con case." },
+    { w: "Signposting", c: "標示", d: "Using words like 'On their first contention' to guide judge.", e: "Clear signposting helps the judge follow." },
+    { w: "Solvency", c: "解決力", d: "Argument that proposed action actually fixes the problem.", e: "The Pro failed to show solvency for housing." },
+    { w: "Spread", c: "速讀", d: "Speaking very fast to fit more arguments.", e: "Please don't spread; judge won't catch points." },
+    { w: "Status quo", c: "現狀", d: "The current state of the world.", e: "In the status quo, laws are already working." },
+    { w: "Summary Speech", c: "摘要演講", d: "Third speech narrowing round to key issues.", e: "Summary speech is where you focus on key issues." },
+    { w: "Tabula Rasa", c: "白板心證", d: "Judge with no bias, deciding only on arguments made.", e: "The judge is tabula rasa, explain every step." },
+    { w: "Timeframe", c: "時間框架", d: "Weighing mechanism: how quickly impact occurs.", e: "Our impact has a faster timeframe." },
+    { w: "Topicality", c: "合題性", d: "Argument that a team is not debating the actual topic.", e: "We're making a topicality challenge." },
+    { w: "Turn", c: "轉向", d: "Flipping opponent's argument to support your side.", e: "We can turn their argument about spending." },
+    { w: "Voter", c: "決勝點", d: "Most important arguments to determine winner.", e: "My first voter is human rights." },
+    { w: "Warrant", c: "論據", d: "Logical reason or evidence explaining why claim is true.", e: "What is the logical warrant that proves it?" },
+    { w: "Weighing", c: "比較/權衡", d: "Comparing arguments to show which is more important.", e: "In weighing, long-term benefits outweigh cost." }
+  ];
+
+  function renderStudyList(filterText = "") {
+    const list = document.getElementById("vocabList");
+    list.innerHTML = "";
+    const term = filterText.toLowerCase();
+    const filtered = db.filter(item => item.w.toLowerCase().includes(term) || item.c.includes(term) || item.d.toLowerCase().includes(term));
+    filtered.sort((a, b) => a.w.localeCompare(b.w));
+    filtered.forEach(item => {
+      const div = document.createElement("div");
+      div.className = "vocab-item";
+      const safeText = item.e.replace(/"/g, "&quot;");
+      div.innerHTML = `
+        <div class="v-header">
+          <span class="v-word">${item.w}</span>
+          <span class="v-cn">${item.c}</span>
+          <button class="speak-btn" data-text="${safeText}" onclick="speak(this)">🔊 唸例句</button>
+        </div>
+        <div class="v-def"><strong>Def:</strong> ${item.d}</div>
+        <div class="v-ex">"${item.e}"</div>
+      `;
+      list.appendChild(div);
+    });
+  }
+
+  function filterVocab() { renderStudyList(document.getElementById("searchInput").value); }
+  let currentUtterance = null;
+  function speak(btn) {
+    const text = btn.getAttribute('data-text');
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      currentUtterance = utterance;
+      utterance.lang = 'en-US';
+      utterance.rate = 0.9;
+      const originalText = "🔊 唸例句";
+      btn.innerHTML = "🔊 播放中...";
+      btn.disabled = true;
+      const resetBtn = () => { btn.innerHTML = originalText; btn.disabled = false; };
+      utterance.onend = () => { resetBtn(); };
+      utterance.onerror = (event) => { if (event.error === 'interrupted' || event.error === 'canceled') return; resetBtn(); };
+      window.speechSynthesis.speak(utterance);
+    } else { alert("抱歉，您的瀏覽器不支援發音功能。"); }
+  }
+
+  let selectedLeft = null;
+  let matchesFound = 0;
+  function initGame() {
+    selectedLeft = null; matchesFound = 0;
+    document.getElementById("score").innerText = "0";
+    document.getElementById("success-modal").classList.remove("show");
+    const leftCol = document.getElementById("game-left");
+    const rightCol = document.getElementById("game-right");
+    leftCol.innerHTML = ""; rightCol.innerHTML = "";
+    const indices = [];
+    while (indices.length < 5) {
+      let r = Math.floor(Math.random() * db.length);
+      if (indices.indexOf(r) === -1) indices.push(r);
+    }
+    const roundData = indices.map(i => db[i]);
+    const rightItems = [...roundData].sort(() => Math.random() - 0.5);
+    roundData.forEach(item => {
+      const el = document.createElement("div"); el.className = "game-item"; el.dataset.word = item.w; el.innerHTML = `<strong>${item.w}</strong>`; el.onclick = () => selectLeft(el); leftCol.appendChild(el);
+    });
+    rightItems.forEach(item => {
+      const el = document.createElement("div"); el.className = "game-item"; el.dataset.word = item.w; el.style.fontSize = "0.9rem"; el.innerHTML = item.d; el.onclick = () => checkMatch(el); rightCol.appendChild(el);
+    });
+  }
+  function selectLeft(el) {
+    if (el.classList.contains("correct")) return;
+    if (selectedLeft) {
+      selectedLeft.classList.remove("selected");
+      if (selectedLeft === el) { selectedLeft = null; return; }
+    }
+    selectedLeft = el; el.classList.add("selected");
+  }
+  function checkMatch(rightEl) {
+    if (!selectedLeft || rightEl.classList.contains("correct")) return;
+    if (selectedLeft.dataset.word === rightEl.dataset.word) {
+      selectedLeft.classList.remove("selected"); selectedLeft.classList.add("correct"); rightEl.classList.add("correct"); selectedLeft.innerHTML += " ✅";
+      selectedLeft = null; matchesFound++; document.getElementById("score").innerText = matchesFound;
+      if (matchesFound === 5) setTimeout(() => document.getElementById("success-modal").classList.add("show"), 500);
+    }
+  }
+  function closeModal() { initGame(); }
+  function switchTab(tab) {
+    document.querySelectorAll(".view-section").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".tab-btn").forEach(el => el.classList.remove("active"));
+    if (tab === 'study') {
+      document.getElementById("study-view").classList.add("active");
+      document.querySelector("button[onclick=\"switchTab('study')\"]").classList.add("active");
+    } else {
+      document.getElementById("game-view").classList.add("active");
+      document.querySelector("button[onclick=\"switchTab('game')\"]").classList.add("active");
+      initGame();
+    }
+  }
+  renderStudyList();
+</script>
+
+</body>
+</html>

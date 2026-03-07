@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>學習資源 | COMPASS</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --border: #e2e8f0;
+      --bg: #f8fafc;
+      --text: #334155;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, "Noto Sans TC", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 24px;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    }
+    .header {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .header h1 { margin: 0; font-size: 1.2rem; }
+    .back-link { color: var(--primary); text-decoration: none; font-weight: 600; }
+    .tabs { display: flex; border-bottom: 1px solid var(--border); background: #f1f5f9; }
+    .tab-btn {
+      flex: 1;
+      border: 0;
+      background: transparent;
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #64748b;
+      cursor: pointer;
+    }
+    .tab-btn.active {
+      background: white;
+      color: var(--primary);
+      border-top: 3px solid var(--primary);
+    }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    iframe {
+      width: 100%;
+      min-height: 80vh;
+      border: 0;
+      display: block;
+      background: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>學習資源</h1>
+      <a class="back-link" href="index.html#resource">← 回到首頁</a>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="pf">Public Forum</button>
+      <button class="tab-btn" data-tab="policy">Policy Debate</button>
+    </div>
+
+    <section id="pf" class="panel active">
+      <iframe src="public-forum.html" title="Public Forum Vocabulary"></iframe>
+    </section>
+
+    <section id="policy" class="panel">
+      <iframe src="policy-debate.html" title="Policy Debate Vocabulary"></iframe>
+    </section>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.panel');
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+
+        tabs.forEach((item) => item.classList.remove('active'));
+        panels.forEach((panel) => panel.classList.remove('active'));
+
+        tab.classList.add('active');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
