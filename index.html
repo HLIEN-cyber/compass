@@ -221,6 +221,14 @@
       opacity: 0.32 !important;
     }
 
+    .stage-speaker {
+      width: min(42vw, 440px);
+      right: 24%;
+      bottom: 2%;
+      transform: translateY(calc(var(--scroll, 0) * -0.22px));
+      opacity: 0.68 !important;
+    }
+
     .hero-inner {
       width: min(100%, var(--max));
       padding: 72px 24px 72px;
@@ -702,7 +710,8 @@
       .stage-mic,
       .stage-bubbles,
       .stage-gavel,
-      .stage-laurel {
+      .stage-laurel,
+      .stage-speaker {
         opacity: 0.28 !important;
       }
     }
@@ -736,6 +745,7 @@
       .stage-bubbles { width: 150px; right: 0; top: 14%; }
       .stage-gavel { width: 140px; right: 2%; bottom: 12%; }
       .stage-laurel { width: 180px; left: -4%; bottom: 8%; }
+      .stage-speaker { width: 250px; right: 8%; bottom: 5%; }
       .divider-track { height: 140px; }
     }
 
@@ -751,6 +761,7 @@
       .stage-bubbles,
       .stage-gavel,
       .stage-laurel,
+      .stage-speaker,
       .track-layer-1,
       .track-layer-2,
       .track-layer-3,
@@ -831,6 +842,34 @@
             <path d="M197 132c12-4 18-14 19-26-12 2-21 8-26 18" stroke="#c8b5d6" stroke-width="4"/>
             <path d="M186 104c13-2 22-10 26-21-13 0-23 5-30 14" stroke="#93a6c0" stroke-width="4"/>
             <path d="M168 80c12 0 21-5 27-14-12-2-22 1-31 8" stroke="#c3cfbf" stroke-width="4"/>
+          </g>
+        </svg>
+
+        <svg class="stage-speaker" viewBox="0 0 420 260">
+          <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <ellipse cx="222" cy="228" rx="116" ry="14" fill="rgba(159,183,217,0.2)"/>
+            <path d="M222 70v138" stroke="#7f92ac" stroke-width="5"/>
+            <path d="M194 94h56" stroke="#7f92ac" stroke-width="5"/>
+            <path d="M176 150h92" stroke="#95a8c1" stroke-width="4" opacity="0.9"/>
+
+            <path d="M196 66c0-20 12-34 26-34s26 14 26 34v20c0 20-12 34-26 34s-26-14-26-34z" fill="rgba(255,255,255,0.46)" stroke="#8ca0ba" stroke-width="4"/>
+            <path d="M178 76c0 25 20 46 44 46s44-21 44-46" stroke="#9baec6" stroke-width="4"/>
+
+            <path d="M124 84l-24-9" stroke="#c8b5d6" stroke-width="4"/>
+            <path d="M120 106h-28" stroke="#c8b5d6" stroke-width="4"/>
+            <path d="M126 128l-22 10" stroke="#c8b5d6" stroke-width="4"/>
+
+            <path d="M318 84l24-9" stroke="#c3cfbf" stroke-width="4"/>
+            <path d="M324 106h26" stroke="#c3cfbf" stroke-width="4"/>
+            <path d="M316 128l22 10" stroke="#c3cfbf" stroke-width="4"/>
+
+            <path d="M84 42h72c10 0 18 8 18 18v20c0 10-8 18-18 18h-18l-16 13 4-13H84c-10 0-18-8-18-18V60c0-10 8-18 18-18z" fill="rgba(255,255,255,0.34)" stroke="#93a6c0" stroke-width="3"/>
+            <path d="M100 62h42" stroke="#8395ad" stroke-width="3"/>
+            <path d="M100 78h30" stroke="#8395ad" stroke-width="3"/>
+
+            <path d="M278 36h68c10 0 18 8 18 18v18c0 10-8 18-18 18h-14l-13 12 3-12h-44c-10 0-18-8-18-18V54c0-10 8-18 18-18z" fill="rgba(255,255,255,0.32)" stroke="#b7c7b9" stroke-width="3"/>
+            <path d="M294 56h38" stroke="#90a7a2" stroke-width="3"/>
+            <path d="M294 72h26" stroke="#90a7a2" stroke-width="3"/>
           </g>
         </svg>
       </div>
