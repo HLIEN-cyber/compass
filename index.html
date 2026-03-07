@@ -90,8 +90,22 @@
 
     .brand {
       display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      height: 44px;
+      width: auto;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 2px;
     }
 
     .brand small {
@@ -109,23 +123,29 @@
 
     .nav-links {
       display: flex;
-      gap: 18px;
+      gap: 8px;
       flex-wrap: wrap;
       align-items: center;
       justify-content: flex-end;
     }
 
     .nav-links a {
-      font-size: 14px;
-      color: var(--muted);
-      padding: 8px 10px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      padding: 7px 16px;
       border-radius: 999px;
-      transition: 0.25s ease;
+      border: 1px solid rgba(80, 96, 120, 0.18);
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(8px);
+      transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, color 0.22s ease;
     }
 
     .nav-links a:hover {
       color: var(--text);
-      background: rgba(255,255,255,0.65);
+      background: rgba(255, 255, 255, 0.88);
+      border-color: rgba(80, 96, 120, 0.28);
+      box-shadow: 0 2px 10px rgba(80, 96, 120, 0.1);
     }
 
     .hero {
@@ -897,8 +917,11 @@
     <div class="nav-wrap">
       <nav class="nav" aria-label="主選單">
         <a class="brand" href="#top">
-          <small>COMPASS</small>
-          <strong>青少年英辯培力計畫</strong>
+          <img class="brand-logo" src="images/COMPASS.png" alt="COMPASS Logo" />
+          <div class="brand-text">
+            <small>COMPASS</small>
+            <strong>青少年英辯培力計畫</strong>
+          </div>
         </a>
         <div class="nav-links">
           <a href="#about">About</a>
