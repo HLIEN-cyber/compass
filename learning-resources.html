@@ -59,10 +59,11 @@
     .panel.active { display: block; }
     iframe {
       width: 100%;
-      min-height: 80vh;
+      height: 0;
       border: 0;
       display: block;
       background: white;
+      overflow: hidden;
     }
   </style>
 </head>
@@ -79,17 +80,35 @@
     </div>
 
     <section id="pf" class="panel active">
-      <iframe src="public-forum.html" title="Public Forum Vocabulary"></iframe>
+      <iframe src="public-forum.html" title="Public Forum Vocabulary" scrolling="no"></iframe>
     </section>
 
     <section id="policy" class="panel">
-      <iframe src="policy-debate.html" title="Policy Debate Vocabulary"></iframe>
+      <iframe src="policy-debate.html" title="Policy Debate Vocabulary" scrolling="no"></iframe>
     </section>
   </div>
 
   <script>
     const tabs = document.querySelectorAll('.tab-btn');
     const panels = document.querySelectorAll('.panel');
+    const frames = document.querySelectorAll('iframe');
+
+    const resizeFrame = (frame) => {
+      const doc = frame.contentDocument || frame.contentWindow?.document;
+      if (!doc) return;
+
+      const bodyHeight = doc.body ? doc.body.scrollHeight : 0;
+      const htmlHeight = doc.documentElement ? doc.documentElement.scrollHeight : 0;
+      frame.style.height = `${Math.max(bodyHeight, htmlHeight)}px`;
+    };
+
+    frames.forEach((frame) => {
+      frame.addEventListener('load', () => {
+        resizeFrame(frame);
+        frame.contentWindow?.addEventListener('resize', () => resizeFrame(frame));
+        setInterval(() => resizeFrame(frame), 400);
+      });
+    });
 
     tabs.forEach((tab) => {
       tab.addEventListener('click', () => {
@@ -99,7 +118,11 @@
         panels.forEach((panel) => panel.classList.remove('active'));
 
         tab.classList.add('active');
-        document.getElementById(target).classList.add('active');
+        const activePanel = document.getElementById(target);
+        activePanel.classList.add('active');
+
+        const activeFrame = activePanel.querySelector('iframe');
+        if (activeFrame) resizeFrame(activeFrame);
       });
     });
   </script>
