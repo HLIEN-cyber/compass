@@ -855,12 +855,47 @@
 
     @media (max-width: 720px) {
       .nav {
-        align-items: flex-start;
-        flex-direction: column;
+        align-items: center;
+        flex-direction: row;
+        gap: 12px;
+      }
+
+      .brand {
+        gap: 8px;
+        min-width: 0;
+      }
+
+      .brand-logo {
+        height: 36px;
+      }
+
+      .brand-text small {
+        font-size: 10px;
+      }
+
+      .brand-text strong {
+        font-size: 14px;
       }
 
       .nav-links {
+        flex-wrap: nowrap;
+        overflow-x: auto;
         justify-content: flex-start;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        width: 100%;
+        padding-bottom: 2px;
+      }
+
+      .nav-links::-webkit-scrollbar {
+        display: none;
+      }
+
+      .nav-links a {
+        flex: 0 0 auto;
+        padding: 6px 10px;
+        font-size: 12px;
+        white-space: nowrap;
       }
 
       .hero-card {
@@ -1018,9 +1053,11 @@
     }
 
     @media (max-width: 600px) {
-      .scatter-char { height: 80px; }
-      .scatter-char-3,
-      .scatter-char-4 { display: none; }
+      .scatter-char { height: 70px; }
+      .scatter-char-2 { top: 8%; left: 60%; }
+      .scatter-char-3 { top: 36%; left: 76%; }
+      .scatter-char-4 { top: 64%; left: 58%; }
+      .scatter-char-0 { top: 62%; left: 2%; }
     }
   </style>
 </head>
