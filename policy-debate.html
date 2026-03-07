@@ -89,12 +89,14 @@
   .modal.show { display: flex; }
   .modal-content { background: white; padding: 30px; border-radius: 12px; text-align: center; width: 320px; }
   .modal-btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-size: 1rem; cursor: pointer; width: 100%; }
+  .char-illustration { height: 72px; width: auto; object-fit: contain; flex-shrink: 0; align-self: flex-end; padding: 0 6px 4px 10px; }
 </style>
 </head>
 <body>
 
 <div class="container">
   <div class="tabs">
+    <img src="images/debate character1.png" alt="Debate Character" class="char-illustration">
     <button class="tab-btn active" onclick="switchTab('study')">📖 單字學習 (Study)</button>
     <button class="tab-btn" onclick="switchTab('game')">🎮 配對挑戰 (Game)</button>
   </div>
