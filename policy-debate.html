@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Policy Debate Vocabulary Trainer</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #334155;
+    --text-light: #64748b;
+    --success: #22c55e;
+    --error: #ef4444;
+    --border: #e2e8f0;
+  }
+
+  * { box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+  
+  body {
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 20px;
+    color: var(--text-main);
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    min-height: 600px;
+    position: relative;
+  }
+
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    background: #f1f5f9;
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--text-light);
+    transition: all 0.2s;
+    font-size: 1rem;
+  }
+
+  .tab-btn.active {
+    background: var(--card-bg);
+    color: var(--primary);
+    border-top: 3px solid var(--primary);
+  }
+
+  .view-section { display: none; padding: 20px; }
+  .view-section.active { display: block; }
+
+  .search-box {
+    width: 100%; padding: 12px; margin-bottom: 20px; border: 2px solid var(--border); border-radius: 8px; font-size: 1rem;
+  }
+  .vocab-list { display: flex; flex-direction: column; gap: 12px; padding-right: 5px; }
+  .vocab-item { border: 1px solid var(--border); border-radius: 8px; padding: 15px; background: white; }
+  .v-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+  .v-word { font-size: 1.3rem; font-weight: bold; color: var(--primary); min-width: 150px; }
+  .v-cn { color: var(--text-main); font-weight: 500; font-size: 1rem; background: #e0f2fe; padding: 4px 8px; border-radius: 4px; }
+  .speak-btn { background: transparent; border: 1px solid var(--primary); color: var(--primary); border-radius: 20px; padding: 4px 12px; font-size: 0.85rem; cursor: pointer; margin-left: auto; }
+  .v-def { font-size: 0.95rem; margin-bottom: 6px; line-height: 1.4; color: #475569; }
+  .v-ex { font-size: 0.9rem; color: var(--text-light); font-style: italic; background: #f1f5f9; padding: 8px 12px; border-radius: 6px; border-left: 4px solid var(--primary); margin-top: 5px; }
+
+  .game-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .score-board { font-weight: bold; color: var(--primary); }
+  .restart-btn { background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+  .game-area { display: flex; gap: 20px; flex-wrap: wrap; }
+  .col { flex: 1; min-width: 250px; display: flex; flex-direction: column; gap: 10px; }
+  .game-item { padding: 15px; background: white; border: 2px solid var(--border); border-radius: 8px; cursor: pointer; min-height: 60px; user-select: none; }
+  .game-item.selected { background: var(--primary); color: white; border-color: var(--primary); }
+  .game-item.correct { background: var(--success); color: white; border-color: var(--success); opacity: 0.5; pointer-events: none; }
+  .instruction { text-align: center; color: var(--text-light); margin-bottom: 15px; font-size: 0.9rem; background: #fffbeb; padding: 10px; border-radius: 6px; border: 1px solid #fcd34d; }
+  .modal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 100; }
+  .modal.show { display: flex; }
+  .modal-content { background: white; padding: 30px; border-radius: 12px; text-align: center; width: 320px; }
+  .modal-btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-size: 1rem; cursor: pointer; width: 100%; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('study')">📖 單字學習 (Study)</button>
+    <button class="tab-btn" onclick="switchTab('game')">🎮 配對挑戰 (Game)</button>
+  </div>
+
+  <div id="study-view" class="view-section active">
+    <input type="text" class="search-box" id="searchInput" placeholder="搜尋單字、中文或定義..." onkeyup="filterVocab()">
+    <div class="vocab-list" id="vocabList"></div>
+  </div>
+
+  <div id="game-view" class="view-section">
+    <div class="instruction">💡 玩法：點擊左側的「單字」，再點擊右側對應的「定義」來進行配對。</div>
+    <div class="game-controls">
+      <span class="score-board">配對進度: <span id="score">0</span> / 5</span>
+      <button class="restart-btn" onclick="initGame()">🔄 換一組題目 (Next Round)</button>
+    </div>
+    <div class="game-area">
+      <div class="col" id="game-left"></div>
+      <div class="col" id="game-right"></div>
+    </div>
+  </div>
+
+  <div id="success-modal" class="modal">
+    <div class="modal-content">
+      <span class="modal-icon">🎉</span>
+      <h2 class="modal-title">太棒了！</h2>
+      <p class="modal-text">你成功完成了所有配對！</p>
+      <button class="modal-btn" onclick="closeModal()">再玩一次</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const db = [
+    { w: "Advantage", c: "優勢/利益", d: "The advantage is the benefit the affirmative claims from solving their harm through their plan.", e: "Our first advantage is that increasing exploration of the ocean prevents pollution." },
+    { w: "Affirmative (aff)", c: "正方", d: "The side in the debate that affirms the resolution. In most policy debates, the aff makes changes to the status quo.", e: "The Affirmative team will show that a carbon tax is the most efficient way to reduce emissions." },
+    { w: "Agent Counterplan", c: "執行者替代方案", d: "An agent counterplan uses a different agent than the affirmative does. E.g. using the Supreme Court instead of Congress.", e: "Instead of using Congress to ban guns, the agent counterplan uses the Supreme Court to ban guns." },
+    { w: "Argument", c: "論點", d: "An argument is a claim, an assertion, backed up by warrant(s).", e: "Our core arguments are environmental threats and public backlash." },
+    { w: "Backflowing", c: "補筆記/回溯紀錄", d: "The practice of writing down your own arguments on your partner's notes after you finish speaking.", e: "I was backflowing our attacks so we won't miss anything in our rebuttals." },
+    { w: "Ballot", c: "評審單", d: "The official form where the judge records the winner, speaker points, and their reasoning.", e: "I'm voting for the Negative side on the ballot because they have a more feasible plan." },
+    { w: "Block", c: "論點卡/論點塊", d: "A block is a list of prepared arguments in defense/offense of an overall claim.", e: "Don't forget to prepare that block on indigenous rights." },
+    { w: "Brink", c: "臨界點", d: "The point where the status quo is vulnerable, and the plan might push it over the edge.", e: "The status quo economy is vulnerable, but implementing the plan pushes it over a brink." },
+    { w: "Card", c: "證據卡", d: "A card is a specific piece of evidence that a team reads in support of an argument.", e: "Do you have any cards that prove mental health leave helps with depression?" },
+    { w: "Case", c: "論點陳述稿", d: "The case loosely refers to the contents of the first affirmative constructive speech (1AC).", e: "Their entire case hinges on a conditional disadvantage while we've successfully refuted it." },
+    { w: "Claim", c: "主張", d: "A claim is an assertion made by a team.", e: "They claimed that an economic decline will trigger war, which is untrue." },
+    { w: "Constructive (Speech)", c: "論點陳述演講", d: "There are eight speeches in the debate, four of which are constructive speeches.", e: "A proper constructive speech should include attacks and defenses." },
+    { w: "Contention", c: "主張/論點", d: "A contention contains one of the stock issues and arguments in support of the issue.", e: "Our first contention is harms. If we don't stop burning fossil fuel, the environment will suffer." },
+    { w: "Counterplan", c: "反計劃/替代方案", d: "A counterplan is an alternative plan provided by the negative.", e: "Our counterplan focuses on saving lives while their plan is only trying to gain more money." },
+    { w: "Cross-Examination (cx)", c: "交叉詰問", d: "There are four cx in a round. One debater asks the other questions during those periods.", e: "During the cross-examination, my opponent conceded that there is not enough budget." },
+    { w: "Disadvantage (DA)", c: "劣勢", d: "A type of argument that shows how the opposing team's plan causes negative consequences.", e: "Run the disadvantage about increased debt if they propose government spending." },
+    { w: "Evidence", c: "證據", d: "Quoted material from credible sources used to support an argument in a debate.", e: "Make sure your evidence is properly cited and tagged." },
+    { w: "Fiat", c: "擬定權", d: "The rule that allows us to focus on whether a policy SHOULD be done, assuming it WOULD be done.", e: "Under fiat, we assume the law passes; the debate is about whether it should pass." },
+    { w: "Flow", c: "筆記/紀錄", d: "A structured note-taking method used to track arguments throughout the debate round.", e: "Keep your flow clean so you can respond to everything." },
+    { w: "Framework", c: "架構", d: "The set of rules or criteria used to evaluate the debate; defines how judges weigh impacts.", e: "Win the framework, and you control how the judge evaluates the round." },
+    { w: "Harms", c: "危害", d: "The problems or negative conditions in the status quo that a plan seeks to solve.", e: "By laying out the harms clearly, we can explain why the status quo is unacceptable." },
+    { w: "Impact", c: "影響/衝擊", d: "The ultimate result or consequence of an argument (e.g., lives saved, economic growth).", e: "The ultimate impact of our plan is preventing 50,000 deaths from waterborne diseases." },
+    { w: "Inherency", c: "固有性", d: "A stock issue asking whether the plan solves a problem that won't fix itself under the status quo.", e: "Without inherency, your plan lacks urgency; the problem would resolve without intervention." },
+    { w: "Link", c: "連結", d: "The part of an argument that connects an action or argument to a consequence or impact.", e: "The plan increases government spending, that's the link to our economic disadvantage." },
+    { w: "Negative (neg)", c: "反方", d: "The team that argues against the resolution or plan. In policy, the neg usually sticks to the status quo.", e: "As Negative, you need to prove the plan is harmful or unnecessary." },
+    { w: "Net benefits", c: "淨效益", d: "A judging criterion that evaluates which side creates the greatest overall benefit.", e: "We win under a net benefits framework. It is clear that our plan's advantages outweigh their DA." },
+    { w: "Plan", c: "計畫", d: "The specific policy action the Affirmative proposes to implement the resolution.", e: "The plan mandates a ban on fossil fuel subsidies." },
+    { w: "Prep Time", c: "準備時間", d: "The shared time bank teams use to prepare their next speeches.", e: "We're going to take thirty seconds of our prep time to organize our final responses." },
+    { w: "Probability", c: "可能性", d: "A metric used to evaluate how likely an impact is to occur.", e: "Their impact may be big, but our scenario has a much higher probability." },
+    { w: "Rebuttal", c: "反駁", d: "A speech where debaters respond to opponents' arguments and defend their own.", e: "Make sure to collapse the key arguments during your rebuttals." },
+    { w: "Resolution", c: "辯題", d: "The official topic or statement that is being debated.", e: "The resolution states that the US should increase its diplomatic presence in Africa." },
+    { w: "Roadmap", c: "演講內容清單", d: "A brief list of which arguments you will cover and in what order before you start speaking.", e: "My roadmap for this speech is: first, the Pro's case; second, the Con's case." },
+    { w: "Signposting", c: "標示論點", d: "Using words like 'On their first contention' to tell the judge where you are on the flow.", e: "Using clear signposting helps the judge follow our logic on their flow." },
+    { w: "Solvency", c: "可行性", d: "A stock issue showing how the plan will effectively solve the problem or harm.", e: "You need to justify your solvency to prove that our plan works." },
+    { w: "Spread", c: "速讀", d: "Speaking at a very high speed to fit in more arguments.", e: "Please don't spread; if you talk too fast, the judge won't catch your key points." },
+    { w: "Status quo (squo)", c: "現狀", d: "The current state of the world as it exists today.", e: "In the status quo, environmental laws are already effectively reducing pollution." },
+    { w: "Stock issues", c: "基本議題", d: "Traditional criteria for evaluating a policy round (significance, harms, inherency, solvency, topicality).", e: "Because they fail to prove inherency, their case doesn't meet a core stock issue." },
+    { w: "Tag", c: "標題", d: "The short, punchy summary of an evidence card read before the quote.", e: "The tag for this next card is: Tax cuts for the wealthy do not create jobs." },
+    { w: "Theory", c: "辯論理論", d: "Arguments about how debate should be done.", e: "We're running a theory argument that the Pro's definition of justice is unfairly narrow." },
+    { w: "Timeframe", c: "時間框架", d: "A weighing mechanism referring to how quickly an impact will occur.", e: "Our impact has a faster timeframe; the climate crisis is happening right now." },
+    { w: "Topicality", c: "主題性", d: "A procedural argument claiming the Aff plan does not fall within the resolution.", e: "If they're not topical, the round shouldn't be judged on the plan." },
+    { w: "Turn", c: "轉向", d: "Using an opponent's argument to show it actually supports your side.", e: "We can turn their argument about spending by showing the plan saves money long-term." },
+    { w: "Uniqueness", c: "獨有性", d: "The argument that a problem or benefit will only happen because of the resolution.", e: "Our argument's uniqueness is that this health crisis will only be averted if the law passes." },
+    { w: "Voting issue / Voter", c: "決勝點", d: "The most important arguments that a team believes should determine the winner.", e: "My first voter is human rights; the Pro is the only side offering a plan to protect them." },
+    { w: "Warrant", c: "論據", d: "The logical reason or evidence that explains why a claim is true.", e: "Your claim is interesting, but what is the logical warrant that proves it?" },
+    { w: "Weighing", c: "比較/權衡", d: "Comparing different arguments to show the judge which one is most important.", e: "In the weighing, long-term environmental benefits are more important than short-term costs." }
+  ];
+
+  function renderStudyList(filterText = "") {
+    const list = document.getElementById("vocabList");
+    list.innerHTML = "";
+    const term = filterText.toLowerCase();
+    const filtered = db.filter(item => item.w.toLowerCase().includes(term) || item.c.includes(term) || item.d.toLowerCase().includes(term));
+    filtered.sort((a, b) => a.w.localeCompare(b.w));
+    filtered.forEach(item => {
+      const div = document.createElement("div");
+      div.className = "vocab-item";
+      const safeText = item.e.replace(/"/g, "&quot;");
+      div.innerHTML = `
+        <div class="v-header">
+          <span class="v-word">${item.w}</span>
+          <span class="v-cn">${item.c}</span>
+          <button class="speak-btn" data-text="${safeText}" onclick="speak(this)">🔊 唸例句</button>
+        </div>
+        <div class="v-def"><strong>Def:</strong> ${item.d}</div>
+        <div class="v-ex">"${item.e}"</div>
+      `;
+      list.appendChild(div);
+    });
+  }
+
+  function filterVocab() { renderStudyList(document.getElementById("searchInput").value); }
+  let currentUtterance = null;
+  function speak(btn) {
+    const text = btn.getAttribute('data-text');
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      currentUtterance = utterance;
+      utterance.lang = 'en-US';
+      utterance.rate = 0.9;
+      const originalText = "🔊 唸例句";
+      btn.innerHTML = "🔊 播放中...";
+      btn.disabled = true;
+      const resetBtn = () => { btn.innerHTML = originalText; btn.disabled = false; };
+      utterance.onend = () => { resetBtn(); };
+      utterance.onerror = (event) => { if (event.error === 'interrupted' || event.error === 'canceled') return; resetBtn(); };
+      window.speechSynthesis.speak(utterance);
+    } else { alert("抱歉，您的瀏覽器不支援發音功能。"); }
+  }
+
+  let selectedLeft = null;
+  let matchesFound = 0;
+  function initGame() {
+    selectedLeft = null; matchesFound = 0;
+    document.getElementById("score").innerText = "0";
+    document.getElementById("success-modal").classList.remove("show");
+    const leftCol = document.getElementById("game-left");
+    const rightCol = document.getElementById("game-right");
+    leftCol.innerHTML = ""; rightCol.innerHTML = "";
+    const indices = [];
+    while (indices.length < 5) {
+      let r = Math.floor(Math.random() * db.length);
+      if (indices.indexOf(r) === -1) indices.push(r);
+    }
+    const roundData = indices.map(i => db[i]);
+    const rightItems = [...roundData].sort(() => Math.random() - 0.5);
+    roundData.forEach(item => {
+      const el = document.createElement("div"); el.className = "game-item"; el.dataset.word = item.w; el.innerHTML = `<strong>${item.w}</strong>`; el.onclick = () => selectLeft(el); leftCol.appendChild(el);
+    });
+    rightItems.forEach(item => {
+      const el = document.createElement("div"); el.className = "game-item"; el.dataset.word = item.w; el.style.fontSize = "0.9rem"; el.innerHTML = item.d; el.onclick = () => checkMatch(el); rightCol.appendChild(el);
+    });
+  }
+  function selectLeft(el) {
+    if (el.classList.contains("correct")) return;
+    if (selectedLeft) {
+      selectedLeft.classList.remove("selected");
+      if (selectedLeft === el) { selectedLeft = null; return; }
+    }
+    selectedLeft = el; el.classList.add("selected");
+  }
+  function checkMatch(rightEl) {
+    if (!selectedLeft || rightEl.classList.contains("correct")) return;
+    if (selectedLeft.dataset.word === rightEl.dataset.word) {
+      selectedLeft.classList.remove("selected"); selectedLeft.classList.add("correct"); rightEl.classList.add("correct"); selectedLeft.innerHTML += " ✅";
+      selectedLeft = null; matchesFound++; document.getElementById("score").innerText = matchesFound;
+      if (matchesFound === 5) setTimeout(() => document.getElementById("success-modal").classList.add("show"), 500);
+    }
+  }
+  function closeModal() { initGame(); }
+  function switchTab(tab) {
+    document.querySelectorAll(".view-section").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".tab-btn").forEach(el => el.classList.remove("active"));
+    if (tab === 'study') {
+      document.getElementById("study-view").classList.add("active");
+      document.querySelector("button[onclick=\"switchTab('study')\"]").classList.add("active");
+    } else {
+      document.getElementById("game-view").classList.add("active");
+      document.querySelector("button[onclick=\"switchTab('game')\"]").classList.add("active");
+      initGame();
+    }
+  }
+  renderStudyList();
+</script>
+
+</body>
+</html>
