@@ -526,6 +526,16 @@
       text-transform: uppercase;
       color: rgba(47,58,74,0.55);
       font-weight: 700;
+      text-align: center;
+      padding: 0 16px;
+      width: 100%;
+    }
+
+    @media (max-width: 600px) {
+      .divider-label {
+        letter-spacing: 0.1em;
+        font-size: 13px;
+      }
     }
 
     .link-grid {
@@ -917,7 +927,7 @@
           <a href="#youtube">YouTube</a>
           <a href="#instagram">Instagram</a>
           <a href="#resource">Resource</a>
-          <a href="#contact">Contact US</a>
+          <a href="#contact">Contact Us</a>
         </div>
       </nav>
     </div>
@@ -1103,7 +1113,7 @@
               <a class="card-icon" href="mailto:Compassdebatesociety@gmail.com" aria-label="寄送 Email">
                 <svg viewBox="0 0 24 24"><path d="M4 7.5 12 13l8-5.5"/><rect x="4" y="6" width="16" height="12" rx="2"/></svg>
               </a>
-              <h3>Contact US</h3>
+              <h3>Contact Us</h3>
               <p>提供課程合作、講座邀請、校園培訓或計畫洽詢的對外窗口。</p>
               <a class="link-action" href="mailto:Compassdebatesociety@gmail.com">寄送 Email ↗</a>
             </div>
@@ -1128,6 +1138,19 @@
     const updateScroll = () => root.style.setProperty('--scroll', window.scrollY.toFixed(1));
     updateScroll();
     window.addEventListener('scroll', updateScroll, { passive: true });
+
+    // Offset anchor scroll to account for sticky nav height
+    document.querySelectorAll('.nav-links a[href^="#"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          const navHeight = document.querySelector('.nav-wrap').offsetHeight;
+          const top = target.getBoundingClientRect().top + window.scrollY - navHeight - 12;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!reducedMotion) {
