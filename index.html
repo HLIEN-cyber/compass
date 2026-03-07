@@ -460,6 +460,30 @@
       padding: 8px 24px 0;
     }
 
+    .divider-note-row {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 8px 24px 0;
+      display: flex;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .divider-note-row .parallax-divider {
+      flex: 1 1 auto;
+      max-width: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .divider-note-row .float-note {
+      flex: 0 0 280px;
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+      max-width: 280px;
+    }
+
     .divider-track {
       height: 180px;
       position: relative;
@@ -767,6 +791,15 @@
         max-width: 100%;
       }
 
+      .divider-note-row {
+        flex-direction: column;
+      }
+
+      .divider-note-row .float-note {
+        flex: none;
+        max-width: 100%;
+      }
+
       .hero-inner {
         padding-top: 48px;
       }
@@ -937,9 +970,6 @@
           </div>
         </div>
 
-        <div class="float-note reveal reveal-right" style="--delay: 220ms;">
-          從立論、反駁到團隊協作，讓學生在溫和而堅定的訓練節奏中，建立能受用長久的表達力。
-        </div>
       </div>
     </header>
 
@@ -978,21 +1008,27 @@
         </div>
       </section>
 
-      <div class="parallax-divider" aria-hidden="true">
-        <div class="divider-track reveal reveal-zoom">
-          <svg class="track-layer-1" viewBox="0 0 1200 180" preserveAspectRatio="none">
-            <path d="M0 108C82 92 118 60 198 60c78 0 118 35 194 35 72 0 118-46 192-46 74 0 115 41 188 41 84 0 120-26 202-26 83 0 121 24 226 48" fill="none" stroke="rgba(159,183,217,0.6)" stroke-width="2.4"/>
-          </svg>
-          <svg class="track-layer-2" viewBox="0 0 1200 180" preserveAspectRatio="none">
-            <path d="M0 118c65-8 96-30 163-30 70 0 111 42 187 42 88 0 113-57 203-57 80 0 113 33 192 33 82 0 118-35 184-35 72 0 122 25 271 62" fill="none" stroke="rgba(205,184,216,0.52)" stroke-width="2.8" stroke-dasharray="7 8"/>
-          </svg>
-          <svg class="track-layer-3" viewBox="0 0 1200 180" preserveAspectRatio="none">
-            <path d="M0 136c84 0 110-58 206-58 92 0 112 39 196 39 80 0 115-26 192-26 79 0 125 48 209 48 84 0 132-24 217-24 61 0 110 8 180 26" fill="none" stroke="rgba(199,217,204,0.6)" stroke-width="3.2"/>
-            <circle cx="206" cy="78" r="7" fill="rgba(159,183,217,0.55)"/>
-            <circle cx="594" cy="91" r="7" fill="rgba(205,184,216,0.55)"/>
-            <circle cx="986" cy="115" r="7" fill="rgba(199,217,204,0.55)"/>
-          </svg>
-          <div class="divider-label">Argument · Evidence · Rebuttal</div>
+      <div class="divider-note-row">
+        <div class="parallax-divider" aria-hidden="true">
+          <div class="divider-track reveal reveal-zoom">
+            <svg class="track-layer-1" viewBox="0 0 1200 180" preserveAspectRatio="none">
+              <path d="M0 108C82 92 118 60 198 60c78 0 118 35 194 35 72 0 118-46 192-46 74 0 115 41 188 41 84 0 120-26 202-26 83 0 121 24 226 48" fill="none" stroke="rgba(159,183,217,0.6)" stroke-width="2.4"/>
+            </svg>
+            <svg class="track-layer-2" viewBox="0 0 1200 180" preserveAspectRatio="none">
+              <path d="M0 118c65-8 96-30 163-30 70 0 111 42 187 42 88 0 113-57 203-57 80 0 113 33 192 33 82 0 118-35 184-35 72 0 122 25 271 62" fill="none" stroke="rgba(205,184,216,0.52)" stroke-width="2.8" stroke-dasharray="7 8"/>
+            </svg>
+            <svg class="track-layer-3" viewBox="0 0 1200 180" preserveAspectRatio="none">
+              <path d="M0 136c84 0 110-58 206-58 92 0 112 39 196 39 80 0 115-26 192-26 79 0 125 48 209 48 84 0 132-24 217-24 61 0 110 8 180 26" fill="none" stroke="rgba(199,217,204,0.6)" stroke-width="3.2"/>
+              <circle cx="206" cy="78" r="7" fill="rgba(159,183,217,0.55)"/>
+              <circle cx="594" cy="91" r="7" fill="rgba(205,184,216,0.55)"/>
+              <circle cx="986" cy="115" r="7" fill="rgba(199,217,204,0.55)"/>
+            </svg>
+            <div class="divider-label">Argument · Evidence · Rebuttal</div>
+          </div>
+        </div>
+
+        <div class="float-note reveal reveal-right" style="--delay: 220ms;">
+          從立論、反駁到團隊協作，讓學生在溫和而堅定的訓練節奏中，建立能受用長久的表達力。
         </div>
       </div>
 
