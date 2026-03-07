@@ -217,31 +217,75 @@
       z-index: 0;
     }
 
-    .resource-icons {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 4px;
+    /* scattered background icons for the learning resources section */
+    .stage-icons-bg {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      top: 0;
+      bottom: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
     }
 
-    .resource-icons svg {
-      opacity: 0.55;
-      filter: drop-shadow(0 6px 12px rgba(120, 128, 145, 0.12));
-      flex-shrink: 0;
+    .stage-icon {
+      position: absolute;
+      opacity: 0.46;
+      filter: drop-shadow(0 8px 18px rgba(110, 125, 148, 0.13));
     }
 
-    .stage-mic {
-      width: 64px;
-      transform: rotate(-6deg);
+    /* left side */
+    .si-mic {
+      width: 108px;
+      left: 2.5vw;
+      top: 52px;
+      transform: rotate(-10deg);
+    }
+    .si-bubbles {
+      width: 138px;
+      left: 1.8vw;
+      top: 210px;
+      transform: rotate(6deg);
+    }
+    .si-book {
+      width: 90px;
+      left: 3vw;
+      bottom: 80px;
+      transform: rotate(-8deg);
     }
 
-    .stage-bubbles {
-      width: 88px;
+    /* right side */
+    .si-gavel {
+      width: 118px;
+      right: 2vw;
+      top: 62px;
+      transform: rotate(12deg);
     }
-
-    .stage-gavel {
-      width: 72px;
+    .si-globe {
+      width: 96px;
+      right: 2.8vw;
+      top: 220px;
+      transform: rotate(-5deg);
+    }
+    .si-trophy {
+      width: 108px;
+      right: 1.8vw;
+      bottom: 72px;
       transform: rotate(8deg);
+    }
+
+    @media (max-width: 900px) {
+      .si-book, .si-globe { display: none; }
+      .si-mic { width: 80px; left: 1vw; top: 40px; }
+      .si-bubbles { width: 100px; left: 0.5vw; top: 160px; }
+      .si-gavel { width: 88px; right: 1vw; top: 48px; }
+      .si-trophy { width: 80px; right: 0.5vw; bottom: 50px; }
+    }
+
+    @media (max-width: 600px) {
+      .stage-icons-bg { display: none; }
     }
 
     .hero-inner {
@@ -394,6 +438,15 @@
 
     .resource-head {
       max-width: none;
+      padding-left: min(13vw, 160px);
+      padding-right: min(13vw, 160px);
+    }
+
+    @media (max-width: 600px) {
+      .resource-head {
+        padding-left: 0;
+        padding-right: 0;
+      }
     }
 
     .section-head h2 {
@@ -1147,40 +1200,82 @@
         </div>
       </section>
 
-      <section class="section">
-        <div class="section-head resource-head reveal reveal-soft" style="--delay: 10ms;">
-          <div class="resource-icons" aria-hidden="true">
-            <svg class="stage-mic" viewBox="0 0 160 160">
-              <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="52" y="18" width="40" height="58" rx="20" stroke="#8193aa" stroke-width="4" fill="rgba(255,255,255,0.34)"/>
-                <path d="M40 54c0 22 18 40 32 40s32-18 32-40" stroke="#93a6c0" stroke-width="4"/>
-                <path d="M80 94v24" stroke="#7d8fa7" stroke-width="4"/>
-                <path d="M58 120h44" stroke="#7d8fa7" stroke-width="4"/>
-                <path d="M31 40c8-10 19-18 32-22" stroke="#c8b5d6" stroke-width="3" opacity=".75"/>
-                <path d="M25 54c12-14 26-24 42-28" stroke="#c8b5d6" stroke-width="3" opacity=".45"/>
-              </g>
-            </svg>
-            <svg class="stage-bubbles" viewBox="0 0 220 140">
-              <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18 34c0-13 11-24 24-24h82c13 0 24 11 24 24v27c0 13-11 24-24 24H78l-21 18 4-18H42c-13 0-24-11-24-24z" fill="rgba(255,255,255,0.42)" stroke="#93a6c0" stroke-width="3"/>
-                <path d="M102 50h-45" stroke="#8395ad" stroke-width="3"/>
-                <path d="M122 50h-8" stroke="#c7b2d4" stroke-width="3"/>
-                <path d="M74 66H56" stroke="#8395ad" stroke-width="3"/>
-                <path d="M95 66H83" stroke="#c7b2d4" stroke-width="3"/>
-                <path d="M112 66h-6" stroke="#8395ad" stroke-width="3"/>
-                <path d="M120 84c0-10 8-18 18-18h37c10 0 18 8 18 18v18c0 10-8 18-18 18h-18l-14 12 2-12h-7c-10 0-18-8-18-18z" fill="rgba(255,255,255,0.36)" stroke="#c3cfbf" stroke-width="3"/>
-              </g>
-            </svg>
-            <svg class="stage-gavel" viewBox="0 0 180 160">
-              <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="18" y="34" width="48" height="24" rx="6" fill="rgba(255,255,255,0.42)" stroke="#8ca0ba" stroke-width="4" transform="rotate(-18 42 46)"/>
-                <rect x="52" y="48" width="18" height="28" rx="5" fill="rgba(255,255,255,0.32)" stroke="#8ca0ba" stroke-width="4" transform="rotate(-18 61 62)"/>
-                <path d="M62 65l72 48" stroke="#7d8fa7" stroke-width="5"/>
-                <path d="M108 123h42" stroke="#c3cfbf" stroke-width="6"/>
-                <path d="M98 133h54" stroke="#93a6c0" stroke-width="4"/>
-              </g>
-            </svg>
-          </div>
+      <section class="section" style="position:relative;">
+        <div class="stage-icons-bg" aria-hidden="true">
+          <!-- left: microphone -->
+          <svg class="stage-icon si-mic" viewBox="0 0 160 160">
+            <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="52" y="18" width="40" height="58" rx="20" stroke="#8193aa" stroke-width="4" fill="rgba(255,255,255,0.34)"/>
+              <path d="M40 54c0 22 18 40 32 40s32-18 32-40" stroke="#93a6c0" stroke-width="4"/>
+              <path d="M80 94v24" stroke="#7d8fa7" stroke-width="4"/>
+              <path d="M58 120h44" stroke="#7d8fa7" stroke-width="4"/>
+              <path d="M31 40c8-10 19-18 32-22" stroke="#c8b5d6" stroke-width="3" opacity=".75"/>
+              <path d="M25 54c12-14 26-24 42-28" stroke="#c8b5d6" stroke-width="3" opacity=".45"/>
+            </g>
+          </svg>
+          <!-- left: chat bubbles -->
+          <svg class="stage-icon si-bubbles" viewBox="0 0 220 140">
+            <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 34c0-13 11-24 24-24h82c13 0 24 11 24 24v27c0 13-11 24-24 24H78l-21 18 4-18H42c-13 0-24-11-24-24z" fill="rgba(255,255,255,0.42)" stroke="#93a6c0" stroke-width="3"/>
+              <path d="M102 50h-45" stroke="#8395ad" stroke-width="3"/>
+              <path d="M122 50h-8" stroke="#c7b2d4" stroke-width="3"/>
+              <path d="M74 66H56" stroke="#8395ad" stroke-width="3"/>
+              <path d="M95 66H83" stroke="#c7b2d4" stroke-width="3"/>
+              <path d="M112 66h-6" stroke="#8395ad" stroke-width="3"/>
+              <path d="M120 84c0-10 8-18 18-18h37c10 0 18 8 18 18v18c0 10-8 18-18 18h-18l-14 12 2-12h-7c-10 0-18-8-18-18z" fill="rgba(255,255,255,0.36)" stroke="#c3cfbf" stroke-width="3"/>
+            </g>
+          </svg>
+          <!-- left: open book / notes -->
+          <svg class="stage-icon si-book" viewBox="0 0 160 160">
+            <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="28" y="22" width="92" height="118" rx="9" stroke="#8ca0ba" stroke-width="4" fill="rgba(255,255,255,0.30)"/>
+              <path d="M50 22v118" stroke="#93a6c0" stroke-width="3"/>
+              <circle cx="50" cy="46" r="4" stroke="#7d8fa7" stroke-width="2.5"/>
+              <circle cx="50" cy="80" r="4" stroke="#7d8fa7" stroke-width="2.5"/>
+              <circle cx="50" cy="114" r="4" stroke="#7d8fa7" stroke-width="2.5"/>
+              <path d="M64 52h44" stroke="#8395ad" stroke-width="3"/>
+              <path d="M64 66h44" stroke="#8395ad" stroke-width="3"/>
+              <path d="M64 80h44" stroke="#8395ad" stroke-width="3"/>
+              <path d="M64 94h34" stroke="#8395ad" stroke-width="3"/>
+              <path d="M64 108h44" stroke="#8395ad" stroke-width="3"/>
+              <path d="M38 32c4-3 8-5 14-6" stroke="#c8b5d6" stroke-width="2.5" opacity=".7"/>
+            </g>
+          </svg>
+          <!-- right: gavel -->
+          <svg class="stage-icon si-gavel" viewBox="0 0 180 160">
+            <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="18" y="34" width="48" height="24" rx="6" fill="rgba(255,255,255,0.42)" stroke="#8ca0ba" stroke-width="4" transform="rotate(-18 42 46)"/>
+              <rect x="52" y="48" width="18" height="28" rx="5" fill="rgba(255,255,255,0.32)" stroke="#8ca0ba" stroke-width="4" transform="rotate(-18 61 62)"/>
+              <path d="M62 65l72 48" stroke="#7d8fa7" stroke-width="5"/>
+              <path d="M108 123h42" stroke="#c3cfbf" stroke-width="6"/>
+              <path d="M98 133h54" stroke="#93a6c0" stroke-width="4"/>
+            </g>
+          </svg>
+          <!-- right: globe -->
+          <svg class="stage-icon si-globe" viewBox="0 0 160 160">
+            <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="80" cy="80" r="52" stroke="#8ca0ba" stroke-width="4" fill="rgba(255,255,255,0.28)"/>
+              <ellipse cx="80" cy="80" rx="52" ry="24" stroke="#93a6c0" stroke-width="3"/>
+              <ellipse cx="80" cy="80" rx="26" ry="52" stroke="#93a6c0" stroke-width="2.5"/>
+              <path d="M28 58h104" stroke="#7d8fa7" stroke-width="2" opacity=".6"/>
+              <path d="M28 102h104" stroke="#7d8fa7" stroke-width="2" opacity=".6"/>
+              <path d="M50 38c6-5 14-8 22-10" stroke="#c8b5d6" stroke-width="2.5" opacity=".7"/>
+            </g>
+          </svg>
+          <!-- right: trophy -->
+          <svg class="stage-icon si-trophy" viewBox="0 0 160 180">
+            <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M38 22h84v52c0 28-19 48-42 48s-42-20-42-48z" stroke="#8ca0ba" stroke-width="4" fill="rgba(255,255,255,0.30)"/>
+              <path d="M38 38c-14 0-20 12-20 20s6 18 20 18" stroke="#93a6c0" stroke-width="3.5"/>
+              <path d="M122 38c14 0 20 12 20 20s-6 18-20 18" stroke="#93a6c0" stroke-width="3.5"/>
+              <path d="M80 122v24" stroke="#7d8fa7" stroke-width="4"/>
+              <path d="M52 146h56" stroke="#7d8fa7" stroke-width="5"/>
+              <path d="M46 156h68" stroke="#8ca0ba" stroke-width="4"/>
+              <path d="M80 46l5 16h17l-14 10 5 16-13-10-13 10 5-16-14-10h17z" stroke="#c8b5d6" stroke-width="2.5" opacity=".75"/>
+            </g>
+          </svg>
+        </div>
+        <div class="section-head resource-head reveal reveal-soft" style="--delay: 10ms; position: relative; z-index: 1;">
           <h2>Your COMPASS in Learning English Debate</h2>
           <p>
             我們相信，每位學生的學習節奏都不相同。
