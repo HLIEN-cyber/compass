@@ -6,15 +6,15 @@
 <title>Policy Debate Vocabulary Trainer</title>
 <style>
   :root {
-    --primary: #2563eb;
-    --primary-dark: #1e40af;
-    --bg-color: #f8fafc;
+    --primary: #7a9bc0;
+    --primary-dark: #5c7fa5;
+    --bg-color: #f8f5f1;
     --card-bg: #ffffff;
-    --text-main: #334155;
-    --text-light: #64748b;
+    --text-main: #2f3a4a;
+    --text-light: #6b7686;
     --success: #22c55e;
     --error: #ef4444;
-    --border: #e2e8f0;
+    --border: rgba(80, 96, 120, 0.15);
   }
 
   * { box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
@@ -40,7 +40,7 @@
   .tabs {
     display: flex;
     border-bottom: 1px solid var(--border);
-    background: #f1f5f9;
+    background: #f3efe9;
   }
 
   .tab-btn {
@@ -71,10 +71,10 @@
   .vocab-item { border: 1px solid var(--border); border-radius: 8px; padding: 15px; background: white; }
   .v-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
   .v-word { font-size: 1.3rem; font-weight: bold; color: var(--primary); min-width: 150px; }
-  .v-cn { color: var(--text-main); font-weight: 500; font-size: 1rem; background: #e0f2fe; padding: 4px 8px; border-radius: 4px; }
+  .v-cn { color: var(--text-main); font-weight: 500; font-size: 1rem; background: #ede7de; padding: 4px 8px; border-radius: 4px; }
   .speak-btn { background: transparent; border: 1px solid var(--primary); color: var(--primary); border-radius: 20px; padding: 4px 12px; font-size: 0.85rem; cursor: pointer; margin-left: auto; }
-  .v-def { font-size: 0.95rem; margin-bottom: 6px; line-height: 1.4; color: #475569; }
-  .v-ex { font-size: 0.9rem; color: var(--text-light); font-style: italic; background: #f1f5f9; padding: 8px 12px; border-radius: 6px; border-left: 4px solid var(--primary); margin-top: 5px; }
+  .v-def { font-size: 0.95rem; margin-bottom: 6px; line-height: 1.4; color: #4a5568; }
+  .v-ex { font-size: 0.9rem; color: var(--text-light); font-style: italic; background: #f3efe9; padding: 8px 12px; border-radius: 6px; border-left: 4px solid var(--primary); margin-top: 5px; }
 
   .game-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
   .score-board { font-weight: bold; color: var(--primary); }
@@ -84,7 +84,7 @@
   .game-item { padding: 15px; background: white; border: 2px solid var(--border); border-radius: 8px; cursor: pointer; min-height: 60px; user-select: none; }
   .game-item.selected { background: var(--primary); color: white; border-color: var(--primary); }
   .game-item.correct { background: var(--success); color: white; border-color: var(--success); opacity: 0.5; pointer-events: none; }
-  .instruction { text-align: center; color: var(--text-light); margin-bottom: 15px; font-size: 0.9rem; background: #fffbeb; padding: 10px; border-radius: 6px; border: 1px solid #fcd34d; }
+  .instruction { text-align: center; color: var(--text-light); margin-bottom: 15px; font-size: 0.9rem; background: rgba(248, 245, 241, 0.8); padding: 10px; border-radius: 6px; border: 1px solid rgba(180, 160, 130, 0.3); }
   .modal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 100; }
   .modal.show { display: flex; }
   .modal-content { background: white; padding: 30px; border-radius: 12px; text-align: center; width: 320px; }
