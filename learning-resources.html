@@ -26,67 +26,6 @@
       min-height: 100vh;
     }
 
-    /* Parallax background layer */
-    .bg-layer {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
-    }
-    /* shared fading filter for all bg characters */
-    .bg-layer img {
-      position: absolute;
-      filter: brightness(1.65) saturate(0.22) contrast(0.82);
-      will-change: transform;
-    }
-    /* ── char 1 · bottom-right · closest layer ── */
-    .bg-char-1 {
-      right: -50px;
-      bottom: -20px;
-      width: 480px;
-      opacity: 0.20;
-      transform: translateY(calc(var(--scroll, 0) * -0.10px));
-      transform-origin: bottom right;
-    }
-    /* ── char 2 · bottom-left · mirrored ── */
-    .bg-char-2 {
-      left: -50px;
-      bottom: -20px;
-      width: 430px;
-      opacity: 0.17;
-      transform: translateY(calc(var(--scroll, 0) * -0.13px)) scaleX(-1);
-      transform-origin: bottom left;
-    }
-    /* ── char 3 · upper-right · further layer ── */
-    .bg-char-3 {
-      right: 40px;
-      top: 6%;
-      width: 290px;
-      opacity: 0.13;
-      transform: translateY(calc(var(--scroll, 0) * -0.06px));
-      transform-origin: top right;
-    }
-    /* ── char 4 · upper-left · furthest layer, mirrored ── */
-    .bg-char-4 {
-      left: 40px;
-      top: 12%;
-      width: 260px;
-      opacity: 0.11;
-      transform: translateY(calc(var(--scroll, 0) * -0.08px)) scaleX(-1);
-      transform-origin: top left;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .bg-char-1, .bg-char-2, .bg-char-3, .bg-char-4 { transform: none !important; }
-    }
-
-    @media (max-width: 900px) {
-      .bg-char-2, .bg-char-4 { display: none; }
-      .bg-char-1 { width: 340px; }
-      .bg-char-3 { width: 220px; }
-    }
-
     .container {
       max-width: 1100px;
       margin: 0 auto;
@@ -139,14 +78,6 @@
   </style>
 </head>
 <body>
-  <!-- Parallax decorative background -->
-  <div class="bg-layer" aria-hidden="true">
-    <img class="bg-char-1" src="images/debate character1.png" alt="" />
-    <img class="bg-char-2" src="images/debate character2.png" alt="" />
-    <img class="bg-char-3" src="images/debate character3.png" alt="" />
-    <img class="bg-char-4" src="images/debate character4.png" alt="" />
-  </div>
-
   <div class="container">
     <div class="header">
       <h1>學習資源</h1>
@@ -168,12 +99,6 @@
   </div>
 
   <script>
-    // Parallax scroll tracking
-    const root = document.documentElement;
-    const updateScroll = () => root.style.setProperty('--scroll', window.scrollY.toFixed(1));
-    updateScroll();
-    window.addEventListener('scroll', updateScroll, { passive: true });
-
     const tabs = document.querySelectorAll('.tab-btn');
     const panels = document.querySelectorAll('.panel');
     const frames = document.querySelectorAll('iframe');
