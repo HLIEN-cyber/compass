@@ -908,6 +908,119 @@
         filter: none !important;
         opacity: 1 !important;
       }
+      .scatter-char {
+        opacity: 0.82 !important;
+        transform: none !important;
+        translate: initial !important;
+      }
+    }
+
+    /* ═══════════════════════════════════
+       Scatter Characters
+    ═══════════════════════════════════ */
+    .scatter-stage {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .scatter-char {
+      position: absolute;
+      height: 190px;
+      width: auto;
+      object-fit: contain;
+      opacity: 0;
+      will-change: transform, opacity, translate;
+      filter: drop-shadow(0 8px 22px rgba(70, 85, 105, 0.18));
+    }
+
+    /* ── Final resting positions (desktop) ── */
+    .scatter-char-1 {
+      top: 8%;
+      left: 3%;
+      animation:
+        scatter-1 1.1s cubic-bezier(.2,.8,.3,1) 0.3s both,
+        float-1 4s ease-in-out 1.55s infinite;
+    }
+    .scatter-char-2 {
+      top: 3%;
+      left: 67%;
+      animation:
+        scatter-2 1.1s cubic-bezier(.2,.8,.3,1) 0.45s both,
+        float-2 3.6s ease-in-out 1.7s infinite;
+    }
+    .scatter-char-3 {
+      top: 39%;
+      left: 86%;
+      animation:
+        scatter-3 1.1s cubic-bezier(.2,.8,.3,1) 0.6s both,
+        float-3 5s ease-in-out 1.85s infinite;
+    }
+    .scatter-char-4 {
+      top: 63%;
+      left: 69%;
+      animation:
+        scatter-4 1.1s cubic-bezier(.2,.8,.3,1) 0.75s both,
+        float-4 4.4s ease-in-out 2s infinite;
+    }
+    .scatter-char-0 {
+      top: 59%;
+      left: 3%;
+      animation:
+        scatter-0 1.1s cubic-bezier(.2,.8,.3,1) 0.9s both,
+        float-0 3.8s ease-in-out 2.15s infinite;
+    }
+
+    /* ── Scatter keyframes: all start near center, fly outward ── */
+    @keyframes scatter-1 {
+      0%   { opacity: 0; transform: translate(42vw, 36vh) scale(0.28) rotate(22deg); }
+      35%  { opacity: 1; }
+      100% { opacity: 0.86; transform: translate(0,0) scale(1) rotate(-12deg); }
+    }
+    @keyframes scatter-2 {
+      0%   { opacity: 0; transform: translate(-22vw, 40vh) scale(0.28) rotate(-20deg); }
+      35%  { opacity: 1; }
+      100% { opacity: 0.86; transform: translate(0,0) scale(1) rotate(8deg); }
+    }
+    @keyframes scatter-3 {
+      0%   { opacity: 0; transform: translate(-40vw, 8vh) scale(0.28) rotate(16deg); }
+      35%  { opacity: 1; }
+      100% { opacity: 0.86; transform: translate(0,0) scale(1) rotate(-5deg); }
+    }
+    @keyframes scatter-4 {
+      0%   { opacity: 0; transform: translate(-24vw, -20vh) scale(0.28) rotate(-24deg); }
+      35%  { opacity: 1; }
+      100% { opacity: 0.86; transform: translate(0,0) scale(1) rotate(14deg); }
+    }
+    @keyframes scatter-0 {
+      0%   { opacity: 0; transform: translate(42vw, -16vh) scale(0.28) rotate(18deg); }
+      35%  { opacity: 1; }
+      100% { opacity: 0.86; transform: translate(0,0) scale(1) rotate(-7deg); }
+    }
+
+    /* ── Gentle float after landing (uses CSS translate property to
+          compose with transform's rotate, no conflict) ── */
+    @keyframes float-1 { 0%,100% { translate: 0 0; } 50% { translate: 0 -10px; } }
+    @keyframes float-2 { 0%,100% { translate: 0 0; } 50% { translate: 0 -8px;  } }
+    @keyframes float-3 { 0%,100% { translate: 0 0; } 50% { translate: 0 -12px; } }
+    @keyframes float-4 { 0%,100% { translate: 0 0; } 50% { translate: 0 -9px;  } }
+    @keyframes float-0 { 0%,100% { translate: 0 0; } 50% { translate: 0 -11px; } }
+
+    @media (max-width: 900px) {
+      .scatter-char { height: 120px; }
+      .scatter-char-1 { top: 6%;  left: 1%;  }
+      .scatter-char-2 { top: 3%;  left: 64%; }
+      .scatter-char-3 { top: 37%; left: 84%; }
+      .scatter-char-4 { top: 65%; left: 65%; }
+      .scatter-char-0 { top: 62%; left: 1%;  }
+    }
+
+    @media (max-width: 600px) {
+      .scatter-char { height: 80px; }
+      .scatter-char-3,
+      .scatter-char-4 { display: none; }
     }
   </style>
 </head>
@@ -968,6 +1081,15 @@
           </g>
         </svg>
 
+      </div>
+
+      <!-- Scatter characters: start clustered at center, fly outward on load -->
+      <div class="scatter-stage" aria-hidden="true">
+        <img class="scatter-char scatter-char-1" src="images/debate%20character1.png" alt="">
+        <img class="scatter-char scatter-char-2" src="images/debate%20character2.png" alt="">
+        <img class="scatter-char scatter-char-3" src="images/debate%20character3.png" alt="">
+        <img class="scatter-char scatter-char-4" src="images/debate%20character4.png" alt="">
+        <img class="scatter-char scatter-char-0" src="images/debate%20character.png" alt="">
       </div>
 
       <div class="hero-inner">
