@@ -221,6 +221,15 @@
       opacity: 0.32 !important;
     }
 
+    .stage-debater {
+      width: 260px;
+      left: 47%;
+      bottom: 3%;
+      opacity: 0.56 !important;
+      transform: translate3d(calc(var(--scroll, 0) * 0.038px), calc(var(--scroll, 0) * -0.14px), 0);
+      transform-origin: center bottom;
+    }
+
     .hero-inner {
       width: min(100%, var(--max));
       padding: 72px 24px 72px;
@@ -702,7 +711,8 @@
       .stage-mic,
       .stage-bubbles,
       .stage-gavel,
-      .stage-laurel {
+      .stage-laurel,
+      .stage-debater {
         opacity: 0.28 !important;
       }
     }
@@ -736,6 +746,7 @@
       .stage-bubbles { width: 150px; right: 0; top: 14%; }
       .stage-gavel { width: 140px; right: 2%; bottom: 12%; }
       .stage-laurel { width: 180px; left: -4%; bottom: 8%; }
+      .stage-debater { width: 180px; left: 44%; bottom: 6%; }
       .divider-track { height: 140px; }
     }
 
@@ -751,6 +762,7 @@
       .stage-bubbles,
       .stage-gavel,
       .stage-laurel,
+      .stage-debater,
       .track-layer-1,
       .track-layer-2,
       .track-layer-3,
@@ -831,6 +843,25 @@
             <path d="M197 132c12-4 18-14 19-26-12 2-21 8-26 18" stroke="#c8b5d6" stroke-width="4"/>
             <path d="M186 104c13-2 22-10 26-21-13 0-23 5-30 14" stroke="#93a6c0" stroke-width="4"/>
             <path d="M168 80c12 0 21-5 27-14-12-2-22 1-31 8" stroke="#c3cfbf" stroke-width="4"/>
+          </g>
+        </svg>
+
+        <svg class="stage-debater" viewBox="0 0 260 220">
+          <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <ellipse cx="130" cy="202" rx="72" ry="12" fill="rgba(126,143,168,0.16)"/>
+            <path d="M72 206h116" stroke="#9cadc5" stroke-width="4"/>
+            <path d="M90 206V120c0-10 8-18 18-18h44c10 0 18 8 18 18v86" fill="rgba(255,255,255,0.36)" stroke="#8da2bd" stroke-width="4"/>
+            <path d="M110 128h40" stroke="#9eb0c8" stroke-width="3"/>
+            <path d="M106 146h48" stroke="#c8b5d6" stroke-width="3"/>
+            <path d="M128 100c-18 0-32-14-32-32s14-32 32-32 32 14 32 32-14 32-32 32z" fill="rgba(255,255,255,0.46)" stroke="#879ab4" stroke-width="4"/>
+            <path d="M114 68c3-9 12-16 22-16 10 0 19 6 22 16" stroke="#c8b5d6" stroke-width="3"/>
+            <path d="M129 101v20" stroke="#7f92ac" stroke-width="4"/>
+            <path d="M130 120l34 16" stroke="#7f92ac" stroke-width="4"/>
+            <path d="M164 136l18-9" stroke="#c8b5d6" stroke-width="3"/>
+            <path d="M120 120l-22 24" stroke="#7f92ac" stroke-width="4"/>
+            <path d="M98 144l-20 5" stroke="#c3cfbf" stroke-width="3"/>
+            <path d="M166 46c14 2 26 10 34 21" stroke="#c3cfbf" stroke-width="3" opacity=".8"/>
+            <path d="M178 34c18 2 32 10 42 23" stroke="#c8b5d6" stroke-width="3" opacity=".6"/>
           </g>
         </svg>
       </div>
