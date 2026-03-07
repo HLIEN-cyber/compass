@@ -47,7 +47,8 @@
       gap: 12px;
       flex-wrap: wrap;
     }
-    .header h1 { margin: 0; font-size: 1.2rem; }
+    .header h1 { margin: 0; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+    .header-char { height: 56px; width: auto; object-fit: contain; }
     .back-link { color: var(--primary); text-decoration: none; font-weight: 600; }
     .tabs { display: flex; border-bottom: 1px solid var(--border); background: rgba(248, 245, 241, 0.8); }
     .tab-btn {
@@ -80,7 +81,7 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>學習資源</h1>
+      <h1><img src="images/debate%20character1.png" alt="Debate Character" class="header-char">學習資源</h1>
       <a class="back-link" href="index.html#resource">← 回到首頁</a>
     </div>
 
