@@ -374,6 +374,36 @@
       position: relative;
     }
 
+    #about {
+      isolation: isolate;
+      overflow: visible;
+    }
+
+    #about::before {
+      content: "";
+      position: absolute;
+      top: -260px;
+      left: clamp(12%, 20vw, 28%);
+      width: min(72vw, 640px);
+      height: calc(100% + 380px);
+      background:
+        linear-gradient(166deg,
+          rgba(118, 129, 149, 0.2) 0%,
+          rgba(118, 129, 149, 0.15) 28%,
+          rgba(118, 129, 149, 0.04) 78%,
+          rgba(118, 129, 149, 0) 100%);
+      clip-path: polygon(24% 0, 78% 0, 100% 100%, 0 100%);
+      transform: translateY(calc(var(--scroll, 0) * -0.18px));
+      filter: blur(1px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #about > * {
+      position: relative;
+      z-index: 1;
+    }
+
     .section-head {
       display: grid;
       gap: 10px;
@@ -892,6 +922,7 @@
       .hero-parallax::after,
       .float-note,
       .link-card::before,
+      #about::before,
       .stage-mic,
       .stage-bubbles,
       .stage-gavel,
